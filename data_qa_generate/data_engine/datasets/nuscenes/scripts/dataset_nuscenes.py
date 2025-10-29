@@ -266,72 +266,11 @@ class VLMNuScenes(Dataset):
 
 def generate_batch_dataset():
     experiments = [
-        {"id": "exp2", "pipelines": [
-            {"type": "metadata", "use_image": "none"},
-            {"type": "ego_status", "mode": "x-y"},
-            {"type": "meta_planning"},
-            {"type": "planning", "mode": "x-y"}
-        ], "container_out_key_comb": ["meta_planning", "planning"]},
-
-        {"id": "exp3", "pipelines": [
-            {"type": "metadata", "use_image": "none"},
-            {"type": "ego_status", "mode": "x-y"},
-            {"type": "planning", "mode": "x-y"}
-        ], "container_out_key_comb": ["planning"]},
-
-        {"id": "exp4", "pipelines": [
-            {"type": "metadata", "use_image": "1v"},
-            {"type": "planning", "mode": "x-y"},
-        ], "container_out_key_comb": ["planning"]},
-
-        {"id": "exp5", "pipelines": [
-            {"type": "metadata", "use_image": "1v"},
-            {"type": "planning", "mode": "x-y"},
-            {"type": "meta_planning"},
-        ], "container_out_key_comb": ["meta_planning", "planning"]},
-
-        {"id": "exp6", "pipelines": [
-            {"type": "metadata", "use_image": "1v"},
-            {"type": "planning", "mode": "x-y"},
-            {"type": "meta_planning"},
-            {"type": "road_agent_analysis"},
-        ], "container_out_key_comb": ["road_agent_analysis", "meta_planning", "planning"]},
-
-        {"id": "exp7", "pipelines": [
-            {"type": "metadata", "use_image": "1v"},
-            {"type": "planning", "mode": "x-y"},
-            {"type": "meta_planning"},
-            {"type": "road_agent_analysis"},
-            {"type": "scene_description"},
-        ], "container_out_key_comb": ["scene_description", "road_agent_analysis", "meta_planning", "planning"]},
-        
-        {"id": "exp8", "pipelines": [
-            {"type": "metadata", "use_image": "1v"},
-            {"type": "ego_status", "mode": "x-y"},
-            {"type": "planning", "mode": "x-y"},
-            {"type": "meta_planning"},
-            {"type": "road_agent_analysis"},
-            {"type": "scene_description"},
-        ], "container_out_key_comb": ["scene_description", "road_agent_analysis", "meta_planning", "planning"]},
-        {"id": "exp9", "pipelines": [
-            {"type": "metadata", "use_image": "1v"},
-            {"type": "ego_status", "mode": "x-y"},
-            {"type": "planning", "mode": "x-y"},
-            {"type": "meta_planning"},
-            {"type": "road_agent_analysis"},
-        ], "container_out_key_comb": ["road_agent_analysis", "meta_planning", "planning"]},
-        {"id": "exp10", "pipelines": [
-            {"type": "metadata", "use_image": "1v"},
-            {"type": "ego_status", "mode": "x-y"},
-            {"type": "planning", "mode": "x-y"},
-            {"type": "meta_planning"},
-        ], "container_out_key_comb": ["meta_planning", "planning"]},
-        {"id": "exp11", "pipelines": [
+        {"id": "exp", "pipelines": [
             {"type": "metadata", "use_image": "1v"},
             {"type": "ego_status", "mode": "x-y"},
             {"type": "planning", "mode": "x-y"},
         ], "container_out_key_comb": ["planning"]},
-
     ]
 
     for experiment in experiments:
@@ -340,19 +279,12 @@ def generate_batch_dataset():
 
         dataset = VLMNuScenes(mode="test", pipelines=v0_pipelines,
                               container_out_key_comb=v0_container_out_key_comb)
-        dataset.cache_data(f"nuscenes_test_b2_{experiment['id']}.json")
+        dataset.cache_data(f"nuscenes_test.json")
 
         dataset = VLMNuScenes(mode="train", pipelines=v0_pipelines,
                               container_out_key_comb=v0_container_out_key_comb)
-        dataset.cache_data(f"nuscenes_train_b2_{experiment['id']}.json")
+        dataset.cache_data(f"nuscenes_train_b2.json")
 
 
 if __name__ == "__main__":
-    # generate_batch_dataset()
-    # exit(0)
-    dataset = VLMNuScenes(mode="test", pipelines=v0_pipelines,
-                          container_out_key_comb=v0_container_out_key_comb)
-    # batch = dataset[0]
-    dataset.cache_queries(
-        "test.json", dataset.pipelines[1])
-   
+    generate_batch_dataset()
