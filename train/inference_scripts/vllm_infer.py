@@ -56,6 +56,7 @@ def vllm_infer(
     pipeline_parallel_size: int = 1,
     tensor_parallel_size: int = 8,
     image_resolution: int = 512 * 512,
+    image_min_pixels: int = 1024,
     gpu_memory_utilization: float = 0.95,
 ):
     r"""
@@ -94,10 +95,12 @@ def vllm_infer(
 
     
     # # parallel this part of code
-    def preprocess_sample(sample, tokenizer, template_obj, image_resolution):
+    def preprocess_sample(sample, tokenizer, template_obj, image_resolution, image_min_pixels):
         if sample["images"]:
+            # vLLM expects raw PIL images, not preprocessed embeddings
+            # The image processor will be applied internally by vLLM
             multi_modal_data = {
-                "image": template_obj.mm_plugin._regularize_images(sample["images"], image_resolution=image_resolution)
+                "image": sample["images"]  # Pass raw PIL images directly
             }
         else:
             multi_modal_data = None
@@ -111,7 +114,7 @@ def vllm_infer(
     inputs, prompts, labels = [None] * len(dataset_module["train_dataset"]), [None] * len(dataset_module["train_dataset"]), [None] * len(dataset_module["train_dataset"])
     with concurrent.futures.ThreadPoolExecutor(max_workers=preprocessing_num_workers) as executor:
         futures = {
-            executor.submit(preprocess_sample, sample, tokenizer, template_obj, image_resolution): idx
+            executor.submit(preprocess_sample, sample, tokenizer, template_obj, image_resolution, image_min_pixels): idx
             for idx, sample in enumerate(dataset_module["train_dataset"])
         }
         for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), desc="Preprocessing"):

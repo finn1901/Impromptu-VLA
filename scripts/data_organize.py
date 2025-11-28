@@ -10,6 +10,13 @@ data_root = args.data_root
 split = args.split
 
 for dataset in sorted(os.listdir(data_root)):
+    dataset_path = os.path.join(data_root, dataset)
+    # Skip non-directory items (like .gitattributes, .cache, etc.)
+    if not os.path.isdir(dataset_path):
+        continue
+    # Skip hidden directories
+    if dataset.startswith('.'):
+        continue
     print(f"Processing {dataset}...")
     q1, q2, q3, q4, q5, q6, q7 = [], [], [], [], [], [], []
     qdict = {
@@ -21,7 +28,6 @@ for dataset in sorted(os.listdir(data_root)):
         "q6": q6,
         "q7": q7,
     }
-    dataset_path = os.path.join(data_root, dataset)
     for pdata in sorted(os.listdir(dataset_path)):
         if split not in pdata:
             continue

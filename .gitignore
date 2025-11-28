@@ -5,6 +5,7 @@
 !nuscenes_test.json
 !nuscenes_train.json
 !dataset_info.json
+!data/dataset_info.json
 dataset_generation
 NeuroNCAP/
 data/jsons
@@ -14,3 +15,31 @@ ImpromptuData
 !ds_z3_config.json
 !ds_z2_config.json
 trash/
+
+# Model artifacts (large files, should be downloaded separately)
+merged_model/
+qwen_local/
+trainer_output/
+results/
+
+# Environment files
+envs/
+*.tar.gz
+*.zip
+
+# Data symlinks and datasets (configure per workstation)
+nuscenes
+nuscenes/
+data_raw/nuscenes/
+
+# Temporary/generated files
+scripts/extract_all_tars.sh
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
