@@ -17,7 +17,16 @@ from nuscenes.eval.detection.config import config_factory as det_configs
 from nuscenes.eval.common.config import config_factory as track_configs
 
 import mmcv
-from mmcv.utils import print_log
+try:
+    from mmcv.utils import print_log
+except ImportError:
+    # For newer versions of mmcv, print_log is in mmengine
+    try:
+        from mmengine.logging import print_log
+    except ImportError:
+        # Fallback to simple print if neither is available
+        def print_log(msg, logger=None):
+            print(msg)
 from mmdet.datasets import DATASETS
 from mmdet.datasets.pipelines import Compose
 from .utils import (
