@@ -1,6 +1,20 @@
 {
-    "QA": {
-        "file_name": "/path/to/your/dataset.json",
+    "QA_nuscenes_train_b2_exp11": {
+        "file_name": "/home/finn-avs1/Documents/coding/Impromptu-VLA/nuscenes_train.json",
+        "formatting": "sharegpt",
+        "columns": {
+            "messages": "messages",
+            "images": "images"
+        },
+        "tags": {
+            "role_tag": "role",
+            "content_tag": "content",
+            "user_tag": "user",
+            "assistant_tag": "assistant"
+        }
+    },
+    "nuscenes_test": {
+        "file_name": "/home/finn-avs1/Documents/coding/Impromptu-VLA/nuscenes_test.json",
         "formatting": "sharegpt",
         "columns": {
             "messages": "messages",
